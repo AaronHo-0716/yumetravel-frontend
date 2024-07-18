@@ -14,7 +14,7 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            By Newbies :D
+            Test Test Test
           </a>
         </div>
       </div>
