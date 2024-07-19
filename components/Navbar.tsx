@@ -1,5 +1,5 @@
 import Image from "next/image";
-import HeaderIcon from "../public/header.svg";
+import HeaderIcon from "../public/logo.svg";
 import { Button } from "./ui/button";
 
 export default function Navbar() {
