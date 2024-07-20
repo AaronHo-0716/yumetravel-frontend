@@ -6,7 +6,6 @@ export async function sendQuery(apiRoute: string, query: string, conversation_id
     const request = await fetch(route, { method: 'GET' })
     const data = await request.json()
 
-    console.log(data.query)
     return data.query
   } catch (error) {
     console.error('Error getting response from server: ', error)

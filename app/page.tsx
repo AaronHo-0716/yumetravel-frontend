@@ -6,11 +6,14 @@ import { useToast } from "@/components/ui/use-toast";
 import { createConversation } from "@/lib/createConversation";
 import { sendQuery } from "@/lib/query";
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
 const apiRoute = 'http://10.147.20.73:8000'
 
 
 export default function Home() {
+  const router = useRouter()
+
   const [query, setQuery] = useState('')
   const [conversationId, setConversationId] = useState<string>('')
   const [isLoading, setIsLoading] = useState(false)
@@ -36,8 +39,12 @@ export default function Home() {
   const sendQueryHandler = async () => {
     if (conversationId) {
       try {
-        await sendQuery(apiRoute, query, conversationId)
-        toast({ description: "Query Sent!" })
+        let rectifiedQuery = query.replace(/ /g, '%20')
+        await sendQuery(apiRoute, rectifiedQuery, conversationId)
+        toast({ description: "Sent!" })
+
+        router.push(`/conversation/${conversationId}`)
+
       } catch (error) {
         console.error('Error in sendQueryHandler: ', error)
       }

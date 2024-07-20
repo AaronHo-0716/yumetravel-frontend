@@ -33,7 +33,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "min-h-screen w-screen bg-background antialiased",
+          "min-h-screen w-screen bg-background antialiased text-accent",
           poppins.variable,
           roboto.variable,
         )}
