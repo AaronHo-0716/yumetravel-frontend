@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from '@/components/ui/input'
+import { useToast } from "@/components/ui/use-toast";
 import { createConversation } from "@/lib/createConversation";
 import { sendQuery } from "@/lib/query";
 import { useState, useEffect } from 'react'
@@ -13,12 +14,16 @@ export default function Home() {
   const [query, setQuery] = useState('')
   const [conversationId, setConversationId] = useState<string>('')
   const [isLoading, setIsLoading] = useState(false)
+  const { toast } = useToast()
 
   useEffect(() => {
     const getConversationId = async () => {
       try {
         const id = await createConversation(apiRoute)
         setConversationId(id)
+        toast({
+          description: "LLM connected"
+        })
       } catch (error) {
         console.error("Failed setting conversation id: ", error)
         throw error
@@ -32,6 +37,7 @@ export default function Home() {
     if (conversationId) {
       try {
         await sendQuery(apiRoute, query, conversationId)
+        toast({ description: "Query Sent!" })
       } catch (error) {
         console.error('Error in sendQueryHandler: ', error)
       }
