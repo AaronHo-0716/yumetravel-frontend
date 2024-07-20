@@ -1,16 +1,39 @@
+"use client"
 import Navbar from "@/components/Navbar";
 import { Button } from "@/components/ui/button";
 import { Input } from '@/components/ui/input'
+import { createConversation } from "@/lib/createConversation";
+import { useState, useEffect } from 'react'
+
+const apiRoute = 'http://10.147.20.73:8000'
+
 
 export default function Home() {
+  const [query, setQuery] = useState('')
+  const [conversationId, setConversationId] = useState<string>('')
+
+  useEffect(() => {
+    const getConversationId = async () => {
+      try {
+        const id = createConversation(apiRoute)
+        setConversationId(id)
+      } catch (error) {
+        console.error("Failed setting conversation id: ", error)
+        throw error
+      }
+    }
+
+    getConversationId()
+  }, [])
+
   return (
     <main className="flex min-h-screen w-full flex-col items-center bg-fixed text-accent font-sans relative"
-      style={{ backgroundImage: "url('../public/background.png')" }}>
+    >
       <Navbar />
       <div className="flex flex-col justify-center items-center h-lvh w-full space-y-8">
         <h1 className="text-6xl"><span className="text-primary">YUME</span> TRAVEL</h1>
         <h2 className="text-xl">"Your Personal AI Travel Advisor"</h2>
-        <Input type="text" placeholder="Where do you want to go?" className="w-1/3 bg-grey border-none text-lg p-8 rounded-lg" />
+        <Input type="text" placeholder="Where do you want to go?" className="w-1/3 bg-grey border-none text-lg p-8 rounded-lg" onChange={(e) => setQuery(e.target.value)} />
         <Button className="text-lg py-8 px-10 bg-grey hover:bg-primary">
           <span>Ask YuMe</span>
 
