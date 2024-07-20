@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins, Roboto } from "next/font/google";
 import { cn } from "@/lib/utils";
+import backgroundImage from '../public/background.png'
 import "./globals.css";
 
 export const poppins = Poppins({
@@ -35,6 +36,7 @@ export default function RootLayout({
           poppins.variable,
           roboto.variable,
         )}
+        style={{ backgroundImage: `url(${backgroundImage.src})` }}
       >
         {children}
       </body>
