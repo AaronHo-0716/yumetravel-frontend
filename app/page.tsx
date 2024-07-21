@@ -7,6 +7,7 @@ import { createConversation } from "@/lib/createConversation";
 import { sendQuery } from "@/lib/query";
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import storeCookies from "@/lib/storeCookie";
 
 export default function Home() {
   const router = useRouter()
@@ -38,9 +39,11 @@ export default function Home() {
   const sendQueryHandler = async () => {
     if (conversationId) {
       try {
+        toast({ description: "Sending..." })
         let rectifiedQuery = query.replace(/ /g, '%20')
-        await sendQuery(apiRoute, rectifiedQuery, conversationId)
-        toast({ description: "Sent!" })
+        const initMessage = await sendQuery(apiRoute, rectifiedQuery, conversationId)
+
+        await storeCookies('initMessage', initMessage)
 
         router.push(`/conversation/${conversationId}`)
 
