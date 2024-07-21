@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Toaster } from "@/components/ui/toaster";
 import { Poppins, Roboto } from "next/font/google";
 import { cn } from "@/lib/utils";
 import backgroundImage from '../public/background.png'
@@ -32,13 +33,14 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn(
-          "min-h-screen w-screen bg-background antialiased",
+          "min-h-screen w-screen bg-background antialiased text-accent",
           poppins.variable,
           roboto.variable,
         )}
         style={{ backgroundImage: `url(${backgroundImage.src})` }}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );
