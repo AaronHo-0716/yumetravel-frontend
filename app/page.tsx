@@ -8,9 +8,6 @@ import { sendQuery } from "@/lib/query";
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
-const apiRoute = 'http://10.147.20.73:8000'
-
-
 export default function Home() {
   const router = useRouter()
 
@@ -18,10 +15,12 @@ export default function Home() {
   const [conversationId, setConversationId] = useState<string>('')
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
+  const apiRoute = process.env.NEXT_PUBLIC_API_ROUTE
 
   useEffect(() => {
     const getConversationId = async () => {
       try {
+        console.log(apiRoute)
         const id = await createConversation(apiRoute)
         setConversationId(id)
         toast({
@@ -56,7 +55,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen w-full flex-col items-center bg-fixed text-accent font-sans relative"
     >
-      <Navbar />
+      <Navbar absolute={true} />
       <div className="flex flex-col justify-center items-center h-lvh w-full space-y-8">
         <h1 className="text-6xl"><span className="text-primary">YUME</span> TRAVEL</h1>
         <h2 className="text-xl">"Your Personal AI Travel Advisor"</h2>
