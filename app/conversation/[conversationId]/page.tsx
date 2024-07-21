@@ -29,9 +29,9 @@ export default function Conversation({ params }: {
         setMessages((prev) => [...prev, { msg: message, sentByUser: true }])
         setMessage('')
 
-        const query = await sendQuery(apiRoute, rectifiedQuery, params.conversationId)
+        const query = await sendQuery(process.env.NEXT_PUBLIC_API_ROUTE, rectifiedQuery, params.conversationId)
 
-        const received = await receiveMessage(apiRoute, params.conversationId)
+        const received = await receiveMessage(process.env.NEXT_PUBLIC_API_ROUTE, params.conversationId)
 
         if (received == 'Server not responding') {
           toast({
