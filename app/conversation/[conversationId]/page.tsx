@@ -79,7 +79,7 @@ export default function Conversation({ params }: {
       <div className="flex self-end flex-col justify-center items-center h-[90vh] w-full space-y-8 p-10">
         <div className="flex flex-col items-center w-full h-full overflow-scroll">
           {messages.map(({ msg, sentByUser }, index) => (
-            <Message message={msg} index={index} sentByUser={sentByUser} />
+            <Message message={msg} key={index} sentByUser={sentByUser} />
           ))}
 
         </div>
