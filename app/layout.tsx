@@ -5,14 +5,14 @@ import { cn } from "@/lib/utils";
 import backgroundImage from '../public/background.png'
 import "./globals.css";
 
-export const poppins = Poppins({
+const poppins = Poppins({
   weight: ["600", "500", "400"],
   display: "swap",
   subsets: ["latin"],
   variable: "--font-header",
 });
 
-export const roboto = Roboto({
+const roboto = Roboto({
   weight: ["400"],
   display: "swap",
   subsets: ["latin"],
