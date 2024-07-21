@@ -15,7 +15,6 @@ export default function Conversation({ params }: {
   params: { conversationId: string };
 }) {
 
-  const apiRoute = process.env.NEXT_PUBLIC_API_ROUTE
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([])
   const { toast } = useToast()
@@ -26,23 +25,16 @@ export default function Conversation({ params }: {
       try {
         let rectifiedQuery = message.replace(/ /g, '%20')
 
-        setMessages((prev) => [...prev, { msg: message, sentByUser: true }])
+        setMessages((prev) => [...prev, { msg: message, type: 'user' }])
         setMessage('')
 
         const query = await sendQuery(process.env.NEXT_PUBLIC_API_ROUTE, rectifiedQuery, params.conversationId)
 
         const received = await receiveMessage(process.env.NEXT_PUBLIC_API_ROUTE, params.conversationId)
 
-        if (received == 'Server not responding') {
-          toast({
-            variant: "destructive",
-            title: "Uh oh! Something went wrong.",
-            description: "There was a problem with your request.",
-            action: <ToastAction onClick={() => router.push('/')} altText="Try again">Try again</ToastAction>,
-          })
-        }
-
-        setMessages((prev) => [...prev, { msg: received, sentByUser: false }])
+        received.forEach((curr, index) => {
+          setMessages((prev) => [...prev, { msg: received[index], type: curr.type }])
+        })
 
       } catch (error) {
         console.error('Error in sendQueryHandler: ', error)
@@ -61,25 +53,26 @@ export default function Conversation({ params }: {
     const getInitMessage = async () => {
       try {
         const cookie = await getCookies('initMessage')
-        setMessages((prev) => [...prev, { msg: cookie.value, sentByUser: true }])
-        const messageResponse = await receiveMessage(apiRoute, params.conversationId)
-        setMessages((prev) => [...prev, { msg: messageResponse, sentByUser: false }])
+        setMessages((prev) => [...prev, { msg: cookie.value, type: "user" }])
+        const messageResponse = await receiveMessage(process.env.NEXT_PUBLIC_API_ROUTE, params.conversationId)
+
+        setMessages((prev) => [...prev, { msg: messageResponse }])
       } catch (error) {
         console.error("Failed fetching init message from cookie: ", error)
         throw error
       }
     }
 
-    return () => { getInitMessage() }
+    getInitMessage()
   }, [])
 
   return (
     <div className="flex min-h-screen w-full flex-col items-center bg-fixed text-accent font-sans ">
       <Navbar absolute={false} />
       <div className="flex self-end flex-col justify-center items-center h-[90vh] w-full space-y-8 p-10">
-        <div className="flex flex-col items-center w-full h-full overflow-scroll">
-          {messages.map(({ msg, sentByUser }, index) => (
-            <Message message={msg} key={index} sentByUser={sentByUser} />
+        <div className="flex flex-col items-center w-full h-full overflow-scroll space-y-12">
+          {messages.map(({ msg, type }, index) => (
+            <Message message={msg} key={index} type={type} />
           ))}
 
         </div>

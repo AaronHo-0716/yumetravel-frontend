@@ -8,12 +8,8 @@ export async function receiveMessage(apiRoute: string, conversation_id: string) 
 
     console.log(data.message)
 
-    if (data.message[0].type == 'summary') {
-      console.log('data type is summary')
-      return data.message[0].content
-    }
+    return data.message
 
-    return data.message.content
   } catch (error) {
     console.error('Error getting response from server: ', error)
     throw error
