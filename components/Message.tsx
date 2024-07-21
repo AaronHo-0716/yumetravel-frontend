@@ -3,6 +3,7 @@ import avatar from '@/public/avatar.svg'
 
 export default function Message({ message, type }) {
 
+  console.log('Message function')
   console.log({ message, type })
   return (
     <>
@@ -12,7 +13,7 @@ export default function Message({ message, type }) {
         </div>
       ) : (<></>)
       }
-      {type == 'summary' ? (
+      {type == 'summary' && message.content ? (
         <div className={`flex flex-row w-4/5 justify-start items-center space-x-6 space-y-12 `} >
           <Avatar className="bg-grey rounded-full">
             <AvatarImage src={avatar.src} />
@@ -21,7 +22,7 @@ export default function Message({ message, type }) {
         </div>
       ) : (<></>)
       }
-      {type == 'possible_flights' ? (
+      {type == 'possible_flights' && message.content.length ? (
         <div className={`flex flex-row w-4/5 justify-start items-center space-x-6 space-y-12 `} >
           <Avatar className="bg-grey rounded-full">
             <AvatarImage src={avatar.src} />
@@ -40,7 +41,7 @@ export default function Message({ message, type }) {
         </div>
       ) : (<></>)
       }
-      {type == 'possible_places' ? (
+      {type == 'possible_places' && message.content.length ? (
         <div className={`flex flex-row w-4/5 justify-start items-center space-x-6 space-y-12 `} >
           <Avatar className="bg-grey rounded-full">
             <AvatarImage src={avatar.src} />
@@ -51,7 +52,7 @@ export default function Message({ message, type }) {
                 <img className="object-cover h-1/2" src={curr['Pictures'][0]} />
                 <div className="h-1/2 flex flex-col justify-center px-6">
                   <p className="font-bold text-accent text-2xl">{curr['Name']}</p>
-                  <p className="text-slate-300">{`${curr['Description'].substring(0, 400)}...`}
+                  <p className="text-slate-300">{`${curr['Description'].substring(0, 350)}...`}
                     <span className="text-grey hover:underline hover:cursor-pointer">View More</span>
                   </p>
                 </div>

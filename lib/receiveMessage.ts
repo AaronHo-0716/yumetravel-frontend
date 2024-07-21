@@ -6,6 +6,7 @@ export async function receiveMessage(apiRoute: string, conversation_id: string) 
     const request = await fetch(route, { method: 'GET' })
     const data = await request.json()
 
+    console.log('received: ')
     console.log(data.message)
 
     return data.message

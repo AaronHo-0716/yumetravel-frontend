@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import getCookies from "@/lib/getCookies";
 import { receiveMessage } from "@/lib/receiveMessage";
 import { useToast } from "@/components/ui/use-toast"
-import { ToastAction } from "@/components/ui/toast";
 import { useRouter } from "next/navigation";
 
 export default function Conversation({ params }: {
@@ -20,6 +19,9 @@ export default function Conversation({ params }: {
   const { toast } = useToast()
   const router = useRouter()
 
+  const scrollDown = () => {
+    document.getElementById('scrollTo').scrollIntoView({ behavior: "smooth", block: "start" });
+  }
   const sendQueryHandler = async () => {
     if (params.conversationId && message.length) {
       try {
@@ -34,6 +36,7 @@ export default function Conversation({ params }: {
 
         received.forEach((curr, index) => {
           setMessages((prev) => [...prev, { msg: received[index], type: curr.type }])
+          scrollDown()
         })
 
       } catch (error) {
@@ -56,7 +59,9 @@ export default function Conversation({ params }: {
         setMessages((prev) => [...prev, { msg: cookie.value, type: "user" }])
         const messageResponse = await receiveMessage(process.env.NEXT_PUBLIC_API_ROUTE, params.conversationId)
 
-        setMessages((prev) => [...prev, { msg: messageResponse }])
+        messageResponse.forEach((curr, index) => {
+          setMessages((prev) => [...prev, { msg: messageResponse[index], type: curr.type }])
+        })
       } catch (error) {
         console.error("Failed fetching init message from cookie: ", error)
         throw error
@@ -72,7 +77,7 @@ export default function Conversation({ params }: {
       <div className="flex self-end flex-col justify-center items-center h-[90vh] w-full space-y-8 p-10">
         <div className="flex flex-col items-center w-full h-full overflow-scroll space-y-12">
           {messages.map(({ msg, type }, index) => (
-            <Message message={msg} key={index} type={type} />
+            <Message message={msg} key={index} type={type} id='scrollTo' />
           ))}
 
         </div>
