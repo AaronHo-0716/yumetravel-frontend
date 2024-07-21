@@ -61,7 +61,7 @@ export default function Home() {
       <Navbar absolute={true} />
       <div className="flex flex-col justify-center items-center h-lvh w-full space-y-8">
         <h1 className="text-6xl"><span className="text-primary">YUME</span> TRAVEL</h1>
-        <h2 className="text-xl">"Your Personal AI Travel Advisor"</h2>
+        <h2 className="text-xl">&quot;Your Personal AI Travel Advisor&quot;</h2>
         <Input type="text" placeholder="Where do you want to go?" className="w-1/3 bg-grey border-none text-lg p-8 rounded-lg" onChange={(e) => setQuery(e.target.value)} />
         <Button className="text-lg py-8 px-10 bg-grey hover:bg-primary" onClick={sendQueryHandler}>
           <span>Ask YuMe</span>
